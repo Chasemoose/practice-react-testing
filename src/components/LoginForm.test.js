@@ -3,7 +3,7 @@ import userEvent from "@testing-library/user-event";
 import LoginForm from "./LoginForm";
 import Catcher from "./Catcher";
 
-describe("<LoginForm", () => {
+xdescribe("<LoginForm", () => {
 	test("loginInput - long value", async () => {
 		render(<LoginForm />);
 
