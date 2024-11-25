@@ -8,11 +8,22 @@ describe("<LoginForm", () => {
 		render(<LoginForm />);
 
 		const fieldLogin = await screen.findByRole("textbox", { name: /login/i });
+		userEvent.type(fieldLogin, "niewiemco");
+
+		const error = await screen.queryByText("The field is too short!");
+		expect(error).toBeNull();
+	});
+
+	test("loginInput - short value", async () => {
+		render(<LoginForm />);
+
+		const fieldLogin = await screen.findByRole("textbox", { name: /login/i });
 		userEvent.type(fieldLogin, "ka");
 
 		const error = await screen.findByText("The field is too short!");
 		expect(error).toBeInTheDocument();
 	});
+
 	test("submit incorrect data #1", async () => {
 		const mock = jest.fn();
 		mock.mockReturnValueOnce(false);
@@ -27,19 +38,5 @@ describe("<LoginForm", () => {
 
 		const error = await screen.findByText("Jest błąd!");
 		expect(error).toBeInTheDocument();
-	});
-
-	test("submit incorrect data #2", async () => {
-		const mock = jest.fn();
-		mock.mockReturnValueOnce(false);
-		render (<LoginForm tryAuth={mock} />)
-
-		const button = await screen.findByRole("button");
-
-        try {
-            userEvent.click(button);
-        } catch(error) {
-            expect(error.message).toBe('Incorrect data!');
-        }
 	});
 });
